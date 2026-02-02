@@ -8,10 +8,11 @@
     background: linear-gradient(120deg, #ff9a9e, #fad0c4);
     height: 100vh;
     margin: 0;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
   }
 
   .box {
@@ -20,10 +21,18 @@
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 2;
   }
 
   h1 {
     color: #e91e63;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
   }
 
   button {
@@ -45,24 +54,49 @@
     color: white;
     position: absolute;
   }
+
+  .heart {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    animation: fall 3s linear infinite;
+  }
+
+  @keyframes fall {
+    0% { top: -10%; opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+  }
 </style>
 </head>
 
 <body>
-  <div class="box">
-    <h1>Will you be my Valentine? 💖</h1>
-    <button id="yes" onclick="yesClicked()">YES 😍</button>
-    <button id="no" onmouseover="moveNo()">NO 🙈</button>
-  </div>
+
+<div class="box" id="card">
+  <h1>Hey 💕</h1>
+  <p>What's your name?</p>
+  <input id="nameInput" placeholder="Enter your name">
+  <br><br>
+  <button id="yes" onclick="start()">Continue 💖</button>
+</div>
+
+<button id="no" onmouseover="moveNo()">NO 🙈</button>
 
 <script>
-function yesClicked() {
-  document.body.innerHTML = `
-    <div style="text-align:center;">
-      <h1 style="color:#e91e63;">Yayyy! 💕</h1>
-      <p>You just made my day 🥰</p>
-      <p>Happy Valentine’s Day 💘</p>
-    </div>
+let noTexts = [
+  "Are you sure? 😏",
+  "Think again 😜",
+  "Don't break my heart 💔",
+  "Still NO? 😭",
+  "Last chance 😌"
+];
+
+let noIndex = 0;
+
+function start() {
+  const name = document.getElementById("nameInput").value || "Cutie";
+  document.getElementById("card").innerHTML = `
+    <h1>${name}, will you be my Valentine? 💖</h1>
+    <button id="yes" onclick="yesClicked('${name}')">YES 😍</button>
   `;
 }
 
@@ -72,8 +106,37 @@ function moveNo() {
   const y = Math.random() * (window.innerHeight - 50);
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+  noBtn.innerText = noTexts[noIndex % noTexts.length];
+  noIndex++;
+}
+
+function yesClicked(name) {
+  document.body.innerHTML = `
+    <div style="text-align:center; z-index:2;">
+      <h1 style="color:#e91e63;">YAYYY 💕</h1>
+      <p>${name}, you just made my heart skip a beat 😍</p>
+      <p>Happy Valentine’s Day 💘</p>
+    </div>
+  `;
+  heartRain();
+}
+
+function heartRain() {
+  for (let i = 0; i < 40; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 4000);
+  }
 }
 </script>
+
 </body>
 </html>
 
