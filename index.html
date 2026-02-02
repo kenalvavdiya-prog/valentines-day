@@ -1,42 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Valentine 💖</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
-      background-color: #ffe6ee;
-    }
-    button {
-      font-size: 20px;
-      padding: 10px 20px;
-      margin: 10px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Valentine Chaos 💘</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  z-index: 2;
+}
+
+h1 { color: #e91e63; }
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yes { background: #4caf50; color: white; }
+#no {
+  background: #f44336;
+  color: white;
+  position: absolute;
+}
+
+.heart {
+  position: absolute;
+  font-size: 22px;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  0% { top: -10%; opacity: 1; }
+  100% { top: 110%; opacity: 0; }
+}
+
+.loader {
+  font-size: 22px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+</style>
 </head>
+
 <body>
 
-  <h1>Will you be my Valentine? 💘</h1>
+<div class="box" id="card">
+  <h1>💘 Welcome 💘</h1>
+  <p>Enter your name to continue</p>
+  <input id="name">
+  <br><br>
+  <button id="yes" onclick="start()">Continue</button>
+</div>
 
-  <button onclick="yesClicked()">YES 💕</button>
-  <button onclick="noClicked()">NO 😜</button>
+<button id="no" onmouseover="escapeNo()">NO 🙈</button>
 
-  <p id="message"></p>
+<script>
+let name = "Cutie";
+let noCount = 0;
+let noTexts = [
+  "No 😐",
+  "Still no?",
+  "Really?",
+  "Cold heart 💔",
+  "Last chance 😤",
+  "Okay stop 😭"
+];
 
-  <script>
-    function yesClicked() {
-      document.getElementById("message").innerHTML =
-        "YAY!!! You just made my day 🥰💖";
-    }
+function start() {
+  name = document.getElementById("name").value || "Cutie";
+  document.getElementById("card").innerHTML = `
+    <h1>${name} 😏</h1>
+    <p>Will you be my Valentine?</p>
+    <button id="yes" onclick="yesClicked()">YES 😍</button>
+  `;
+}
 
-    function noClicked() {
-      document.getElementById("message").innerHTML =
-        "Oops 😅 try again… I’ll wait 💌";
-    }
-  </script>
+function escapeNo() {
+  const no = document.getElementById("no");
+  noCount++;
 
-</body>
-</html>
+  no.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  no.style.top = Math.random() * (window.innerHeight - 50) + "px";
+  no.style.transform = `scale(${Math.max(0.4, 1 - noCount*0.1)})`;
+  no.innerText = noTexts[Math.min(noCount, noTexts.length-1)];
+
+  if (noCount > 6) {
+    no.style.display = "none";
+  }
+}
+
+function yesClicked() {
+  document.body.innerHTML = `
+    <div class="box">
+      <h1>Processing your answer…</h1>
+      <p class="loader">❤️❤️❤️</p>
+    </div>
+  `;
+
+  setTimeout(finalMessage, 2500);
+}
+
+function finalMessage() {
+  document.body.inner
