@@ -129,5 +129,29 @@ function yesClicked() {
 }
 
 function finalMessage() {
-  document.body.inner
+  document.body.innerHTML = `
+    <div style="text-align:center; z-index:2;">
+      <h1 style="color:#e91e63;">💖 GOTCHA ${name}! 💖</h1>
+      <p>You were never allowed to say NO 😈</p>
+      <p>Happy Valentine’s Day ❤️</p>
+    </div>
+  `;
+  heartStorm();
+}
+
+function heartStorm() {
+  for (let i = 0; i < 60; i++) {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.animationDuration = (2 + Math.random()*3) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
 
