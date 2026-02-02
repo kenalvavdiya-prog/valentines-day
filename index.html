@@ -1,157 +1,69 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Valentine Chaos 💘</title>
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: radial-gradient(circle, #ff758c, #ff7eb3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-}
+  <title>Valentine Fun 💘</title>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: pink;
+      font-family: Arial;
+      overflow: hidden;
+    }
 
-.box {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-  z-index: 2;
-}
+    .box {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+    }
 
-h1 { color: #e91e63; }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+    }
 
-input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
+    #yes {
+      background: green;
+      color: white;
+    }
 
-button {
-  padding: 12px 25px;
-  font-size: 18px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  margin: 10px;
-}
-
-#yes { background: #4caf50; color: white; }
-#no {
-  background: #f44336;
-  color: white;
-  position: absolute;
-}
-
-.heart {
-  position: absolute;
-  font-size: 22px;
-  animation: fall 3s linear infinite;
-}
-
-@keyframes fall {
-  0% { top: -10%; opacity: 1; }
-  100% { top: 110%; opacity: 0; }
-}
-
-.loader {
-  font-size: 22px;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-</style>
+    #no {
+      background: red;
+      color: white;
+      position: absolute;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="box" id="card">
-  <h1>💘 Welcome 💘</h1>
-  <p>Enter your name to continue</p>
-  <input id="name">
-  <br><br>
-  <button id="yes" onclick="start()">Continue</button>
+<div class="box">
+  <h1>Will you be my Valentine? ❤️</h1>
+  <button id="yes" onclick="yes()">YES 😍</button>
+  <button id="no" onmouseover="moveNo()">NO 😈</button>
 </div>
 
-<button id="no" onmouseover="escapeNo()">NO 🙈</button>
-
 <script>
-let name = "Cutie";
-let noCount = 0;
-let noTexts = [
-  "No 😐",
-  "Still no?",
-  "Really?",
-  "Cold heart 💔",
-  "Last chance 😤",
-  "Okay stop 😭"
-];
+function moveNo() {
+  let x = Math.random() * (window.innerWidth - 100);
+  let y = Math.random() * (window.innerHeight - 50);
 
-function start() {
-  name = document.getElementById("name").value || "Cutie";
-  document.getElementById("card").innerHTML = `
-    <h1>${name} 😏</h1>
-    <p>Will you be my Valentine?</p>
-    <button id="yes" onclick="yesClicked()">YES 😍</button>
-  `;
+  document.getElementById("no").style.left = x + "px";
+  document.getElementById("no").style.top = y + "px";
 }
 
-function escapeNo() {
-  const no = document.getElementById("no");
-  noCount++;
-
-  no.style.left = Math.random() * (window.innerWidth - 100) + "px";
-  no.style.top = Math.random() * (window.innerHeight - 50) + "px";
-  no.style.transform = `scale(${Math.max(0.4, 1 - noCount*0.1)})`;
-  no.innerText = noTexts[Math.min(noCount, noTexts.length-1)];
-
-  if (noCount > 6) {
-    no.style.display = "none";
-  }
-}
-
-function yesClicked() {
-  document.body.innerHTML = `
-    <div class="box">
-      <h1>Processing your answer…</h1>
-      <p class="loader">❤️❤️❤️</p>
-    </div>
-  `;
-
-  setTimeout(finalMessage, 2500);
-}
-
-function finalMessage() {
-  document.body.innerHTML = `
-    <div style="text-align:center; z-index:2;">
-      <h1 style="color:#e91e63;">💖 GOTCHA ${name}! 💖</h1>
-      <p>You were never allowed to say NO 😈</p>
-      <p>Happy Valentine’s Day ❤️</p>
-    </div>
-  `;
-  heartStorm();
-}
-
-function heartStorm() {
-  for (let i = 0; i < 60; i++) {
-    let h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "❤️";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.animationDuration = (2 + Math.random()*3) + "s";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 4000);
-  }
+function yes() {
+  document.body.innerHTML = "<h1>Yayyy 💖 You said YES!</h1>";
 }
 </script>
 
 </body>
 </html>
-
